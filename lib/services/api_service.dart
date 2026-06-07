@@ -3,10 +3,26 @@ import 'api_client.dart';
 import '../models/set_pin_request.dart';
 import '../models/login_request.dart';
 import '../models/login_response.dart';
+import '../models/profile_response.dart';
 
 import '../models/signup_request.dart';
 
 class ApiService {
+  Future<ProfileResponse?> getProfile() async {
+    try {
+      final response = await ApiClient.dio.get("/profile");
+
+      if (response.statusCode == 200) {
+        return ProfileResponse.fromJson(response.data);
+      }
+
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<bool> setPin(SetPinRequest request) async {
     try {
       final response = await ApiClient.dio.post(

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../models/set_pin_request.dart';
 import '../../services/api_service.dart';
-import '../home/main_screen.dart';
+import '../main/main_screen.dart';
 
 class SetPinScreen extends StatefulWidget {
   const SetPinScreen({super.key});
@@ -60,7 +60,7 @@ class _SetPinScreenState extends State<SetPinScreen> {
 
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (_) => const MainScreen()),
+        MaterialPageRoute(builder: (_) => MainScreen()),
       );
     } else {
       ScaffoldMessenger.of(

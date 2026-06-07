@@ -1,7 +1,9 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import '../../services/secure_storage_service.dart';
-import '../auth/login_screen.dart';
-import '../home/main_screen.dart';
+import 'package:financial_advisory/screens/auth/login_screen.dart';
+import 'package:financial_advisory/screens/main/main_screen.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -11,29 +13,31 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  final SecureStorageService _storage = SecureStorageService();
+  final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
 
   @override
   void initState() {
     super.initState();
-    _checkAuthentication();
+
+    navigateUser();
   }
 
-  Future<void> _checkAuthentication() async {
-    await Future.delayed(const Duration(seconds: 2));
-    final token = await _storage.getToken();
+  Future<void> navigateUser() async {
+    await Future.delayed(const Duration(seconds: 3));
+
+    String? token = await secureStorage.read(key: "jwt_token");
 
     if (!mounted) return;
 
     if (token != null && token.isNotEmpty) {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const MainScreen()),
+        MaterialPageRoute(builder: (_) => MainScreen()),
       );
     } else {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
+        MaterialPageRoute(builder: (_) => const LoginScreen()),
       );
     }
   }
@@ -42,46 +46,42 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
+        width: double.infinity,
+        height: double.infinity,
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            colors: [Color(0xFF1E3C72), Color(0xFF2A5298)],
+            colors: [Color(0xFF1A237E), Color(0xFF283593)],
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Icon(
-                Icons.account_balance_wallet,
-                size: 80,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image.asset("assets/images/applogo.jpeg", height: 180, width: 180),
+
+            const SizedBox(height: 20),
+
+            const Text(
+              "UPI App",
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.bold,
                 color: Colors.white,
               ),
-              const SizedBox(height: 24),
-              const Text(
-                'Financial Advisory',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 28,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 1.2,
-                ),
-              ),
-              const SizedBox(height: 8),
-              const Text(
-                'Your Smart UPI Assistant',
-                style: TextStyle(
-                  color: Colors.white70,
-                  fontSize: 16,
-                ),
-              ),
-              const SizedBox(height: 48),
-              const CircularProgressIndicator(
-                valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-              ),
-            ],
-          ),
+            ),
+
+            const SizedBox(height: 10),
+
+            const Text(
+              "Fast • Secure • Simple",
+              style: TextStyle(color: Colors.white70, fontSize: 14),
+            ),
+
+            const SizedBox(height: 50),
+
+            const CircularProgressIndicator(),
+          ],
         ),
       ),
     );
