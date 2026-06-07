@@ -1,11 +1,26 @@
 import 'package:dio/dio.dart';
 import 'api_client.dart';
+import '../models/set_pin_request.dart';
 import '../models/login_request.dart';
 import '../models/login_response.dart';
+
 import '../models/signup_request.dart';
-import '../constants/api_constants.dart';
 
 class ApiService {
+  Future<bool> setPin(SetPinRequest request) async {
+    try {
+      final response = await ApiClient.dio.post(
+        "/auth/set-pin",
+        data: request.toJson(),
+      );
+
+      return response.statusCode == 200;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
   Future<LoginResponse> login(LoginRequest request) async {
     try {
       print("REQUEST:");

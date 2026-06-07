@@ -7,6 +7,7 @@ import '../../services/api_service.dart';
 import '../../services/secure_storage_service.dart';
 
 import 'signup_screen.dart';
+import '../pin/set_pin_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -47,15 +48,19 @@ class _LoginScreenState extends State<LoginScreen> {
       final LoginResponse response = await apiService.login(request);
 
       await secureStorageService.saveToken(response.token);
+
       await secureStorageService.saveUserIdentifier(
         usernameController.text.trim(),
       );
 
       if (!mounted) return;
 
-      ScaffoldMessenger.of(
+      Navigator.pushReplacement(
         context,
-      ).showSnackBar(const SnackBar(content: Text('Login Successful')));
+        MaterialPageRoute(builder: (context) => SetPinScreen()),
+      );
+
+      return;
     } catch (e) {
       if (!mounted) return;
       String message;
