@@ -4,10 +4,42 @@ import '../models/set_pin_request.dart';
 import '../models/login_request.dart';
 import '../models/login_response.dart';
 import '../models/profile_response.dart';
+import '../models/wallet_response.dart';
+import '../models/transaction_history_response.dart';
 
 import '../models/signup_request.dart';
 
 class ApiService {
+  Future<WalletResponse?> getBalance() async {
+    try {
+      final response = await ApiClient.dio.get("/wallet/balance");
+
+      if (response.statusCode == 200) {
+        return WalletResponse.fromJson(response.data);
+      }
+
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
+  Future<TransactionHistoryResponse?> getTransactionHistory() async {
+    try {
+      final response = await ApiClient.dio.get("/transactions/history");
+
+      if (response.statusCode == 200) {
+        return TransactionHistoryResponse.fromJson(response.data);
+      }
+
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<ProfileResponse?> getProfile() async {
     try {
       final response = await ApiClient.dio.get("/profile");

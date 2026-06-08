@@ -58,7 +58,11 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Image.asset("assets/images/applogo.jpeg", height: 180, width: 180),
+            const Icon(
+              Icons.account_balance_wallet,
+              size: 120,
+              color: Colors.white,
+            ),
 
             const SizedBox(height: 20),
 
