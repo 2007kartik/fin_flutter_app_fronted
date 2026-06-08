@@ -1,14 +1,17 @@
 import 'package:flutter/material.dart';
-//import 'package:url_launcher/url_launcher.dart';
+import '../send_money/send_money_screen.dart';
+import '../receive_money/receive_money_screen.dart';
+
+import 'package:url_launcher/url_launcher.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
-  // Future<void> openFinancialAdvisory() async {
-  //   final Uri url = Uri.parse("https://finance-advisory.netlify.app/");
+  Future<void> openFinancialAdvisory() async {
+    final Uri url = Uri.parse("https://finance-advisory.netlify.app/");
 
-  //   await launchUrl(url, mode: LaunchMode.externalApplication);
-  // }
+    await launchUrl(url, mode: LaunchMode.externalApplication);
+  }
 
   Widget actionCard({
     required IconData icon,
@@ -119,13 +122,17 @@ class HomeScreen extends StatelessWidget {
             ),
 
             child: Container(
+              width: double.infinity,
               height: 180,
-
-              alignment: Alignment.center,
-
-              child: const Text(
-                "Secure UPI Payments",
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Image.asset(
+                  "assets/images/banner.png",
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -144,8 +151,9 @@ class HomeScreen extends StatelessWidget {
             title: "Send Money",
             subtitle: "Transfer funds instantly",
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text("Send Money Screen Coming Soon")),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const SendMoneyScreen()),
               );
             },
           ),
@@ -155,44 +163,81 @@ class HomeScreen extends StatelessWidget {
             title: "Receive Money",
             subtitle: "Request payment from anyone",
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text("Receive Money Screen Coming Soon"),
-                ),
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (_) => const ReceiveMoneyScreen()),
               );
             },
           ),
 
-          // actionCard(
-          //   icon: Icons.account_balance_wallet,
-          //   title: "Financial Advisory",
-          //   subtitle: "Get expert financial guidance",
-          //  onTap: openFinancialAdvisory,
-          // ),
-          // const SizedBox(height: 10),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20),
+          actionCard(
+            icon: Icons.account_balance_wallet,
+            title: "Financial Advisory",
+            subtitle: "Get expert financial guidance",
+            onTap: openFinancialAdvisory,
+          ),
+          const SizedBox(height: 10),
 
-              child: Column(
+          Card(
+            elevation: 4,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(20),
+              child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
+                children: [
                   Text(
                     "Why Choose UPI App?",
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
 
+                  SizedBox(height: 16),
+
+                  Row(
+                    children: [
+                      Icon(Icons.verified_user, size: 20),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Bank-level security encryption",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ],
+                  ),
+
                   SizedBox(height: 12),
 
-                  Text("✓ Bank-level security encryption"),
+                  Row(
+                    children: [
+                      Icon(Icons.analytics, size: 20),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Visual money insights",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ],
+                  ),
 
-                  SizedBox(height: 8),
+                  SizedBox(height: 12),
 
-                  Text("✓ Visual money insights"),
-
-                  SizedBox(height: 8),
-
-                  Text("✓ Personalized financial guidance"),
+                  Row(
+                    children: [
+                      Icon(Icons.support_agent, size: 20),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          "Personalized financial guidance",
+                          style: TextStyle(fontSize: 15),
+                        ),
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),

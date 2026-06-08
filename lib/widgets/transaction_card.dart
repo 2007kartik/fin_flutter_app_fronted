@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/transaction.dart';
+import '../screens/money/transaction_details_screen.dart';
 
 class TransactionCard extends StatelessWidget {
   final Transaction transaction;
@@ -49,6 +50,24 @@ class TransactionCard extends StatelessWidget {
       margin: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
 
       child: ListTile(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (_) => TransactionDetailsScreen(
+                transactionId: transaction.transactionId,
+                fromUpi: transaction.fromUpi,
+                toUpi: transaction.toUpi,
+                amount: transaction.amount,
+                status: transaction.status,
+                category: transaction.category,
+                createdAt: transaction.createdAt,
+                isCredit: isCredit,
+              ),
+            ),
+          );
+        },
+
         leading: CircleAvatar(
           child: Icon(isCredit ? Icons.arrow_downward : Icons.arrow_upward),
         ),
@@ -70,7 +89,7 @@ class TransactionCard extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
 
               decoration: BoxDecoration(
-                color: statusColor.withOpacity(0.1),
+                color: statusColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(10),
               ),
 

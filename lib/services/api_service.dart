@@ -5,11 +5,31 @@ import '../models/login_request.dart';
 import '../models/login_response.dart';
 import '../models/profile_response.dart';
 import '../models/wallet_response.dart';
+import '../models/transfer_request.dart';
+import '../models/transfer_response.dart';
 import '../models/transaction_history_response.dart';
 
 import '../models/signup_request.dart';
 
 class ApiService {
+  Future<TransferResponse?> transfer(TransferRequest request) async {
+    try {
+      final response = await ApiClient.dio.post(
+        "/transactions/transfer",
+        data: request.toJson(),
+      );
+
+      if (response.statusCode == 200) {
+        return TransferResponse.fromJson(response.data);
+      }
+
+      return null;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
+
   Future<WalletResponse?> getBalance() async {
     try {
       final response = await ApiClient.dio.get("/wallet/balance");
